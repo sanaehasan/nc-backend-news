@@ -4,7 +4,7 @@ const app = require("../app.js");
 
 describe("EndPoint Test: /api", () => {
   test("Get: 200 with json format describing our apps endPoint", () => {
-    request(app)
+    return request(app)
       .get("/api")
       .expect(200)
       .then(({ body }) => {
@@ -12,7 +12,7 @@ describe("EndPoint Test: /api", () => {
       });
   });
   test("Get: 404 when end point does not exist", () => {
-    request(app)
+    return request(app)
       .get("/lalala")
       .expect(404)
       .then(({ body }) => {
