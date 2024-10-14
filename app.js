@@ -6,10 +6,12 @@ const {
   handleCustomErrors,
   handleServerErrors,
 } = require("./controllers/errors_handles");
+const { getArticleByID } = require("./controllers/articlesControler");
 const app = express();
 
 app.get("/api", getEndpoint);
 app.get("/api/topics", getAlltopics);
+app.get("/api/articles/:article_id", getArticleByID);
 app.all("*", (request, response, next) => {
   response.status(404).send({ msg: "Endpoint does not exist" });
 });
