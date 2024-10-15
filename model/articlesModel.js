@@ -10,9 +10,17 @@ exports.fetchArticleById = (id) => {
     });
 };
 exports.fetchArticles = (sort_by = "created_at", order = "DESC") => {
-  let queryStr = `SELECT a.title, a.article_id, a.topic, a.created_at,a.votes,a.article_img_url, a.author ,COUNT(comment_id) as comments_count 
-                  FROM articles a JOIN comments c ON a.article_id=c.article_id 
-                  GROUP BY  a.article_id`;
+  let queryStr = `SELECT 
+                 a.title,
+                 a.article_id,
+                 a.topic, 
+                 a.created_at,
+                 a.votes,
+                 a.article_img_url, 
+                 a.author,
+                 COUNT(comment_id) as comments_count 
+                 FROM articles a JOIN comments c ON a.article_id=c.article_id 
+                 GROUP BY  a.article_id`;
   //here will come other query items WHERE
   const orderby = ` ORDER BY ${sort_by} ${order}`;
   queryStr += orderby;

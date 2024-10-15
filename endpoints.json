@@ -28,7 +28,7 @@
   },
   "GET /api/articles/:article_id/comments": {
     "description": "get all comments linked to an article",
-    "queries": ["article_id"],
+    "queries": ["article_id","sort_by","order"],
     "exampleResponse": {
       "articles": [
         {
