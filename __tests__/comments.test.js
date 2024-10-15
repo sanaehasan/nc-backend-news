@@ -53,5 +53,16 @@ describe("Comments End Point", () => {
           expect(body.msg).toBe("Article has no comments yet");
         });
     });
+    test("Get:200 when the article_id is valid order by date of creation", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comments).toBeSorted({
+            key: "created_at",
+            descending: true,
+          });
+        });
+    });
   });
 });
