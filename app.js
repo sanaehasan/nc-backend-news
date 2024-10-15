@@ -10,12 +10,14 @@ const {
   getArticleByID,
   getArticles,
 } = require("./controllers/articlesControler");
+const { getCommentsByArticleId } = require("./controllers/commentsController");
 const app = express();
 
 app.get("/api", getEndpoint);
 app.get("/api/topics", getAlltopics);
 app.get("/api/articles/:article_id", getArticleByID);
 app.get("/api/articles", getArticles);
+app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.all("*", (request, response, next) => {
   response.status(404).send({ msg: "Endpoint does not exist" });
 });

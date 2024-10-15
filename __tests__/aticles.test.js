@@ -50,7 +50,7 @@ describe("Articles End Point", () => {
     });
   });
   describe("Get All Articles", () => {
-    test("Get all articles objects in the database", () => {
+    test("Get all articles objects in the database exclusing the body and with a comments count", () => {
       return request(app)
         .get("/api/articles")
         .expect(200)
@@ -64,6 +64,7 @@ describe("Articles End Point", () => {
             expect(typeof article.votes).toBe("number");
             expect(typeof article.article_img_url).toBe("string");
             expect(typeof article.comments_count).toBe("string");
+            expect(article.body).toBeUndefined();
           });
         });
     });
