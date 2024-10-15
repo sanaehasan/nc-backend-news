@@ -9,3 +9,6 @@ exports.fetchArticleById = (id) => {
       return rows;
     });
 };
+exports.fetchArticles = (sort_by = "created_at", order = "DESC") => {
+  console.log("hello model is here");
+};

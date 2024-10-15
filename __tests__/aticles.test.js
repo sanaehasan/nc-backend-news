@@ -48,4 +48,14 @@ describe("Articles End Point", () => {
         });
     });
   });
+  xdescribe("Get All Articles", () => {
+    test("Get all articles objects in the database", () => {
+      request
+        .get("/api/articles")
+        .expect(200)
+        .then(({ body }) => {
+          console.log(body);
+        });
+    });
+  });
 });
