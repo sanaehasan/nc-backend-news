@@ -3,6 +3,7 @@ const request = require("supertest");
 const seed = require("../db/seeds/seed.js");
 const data = require("../db/data/test-data/index.js");
 const db = require("../db/connection.js");
+require("jest-sorted");
 
 beforeEach(() => {
   return seed(data);
@@ -48,13 +49,33 @@ describe("Articles End Point", () => {
         });
     });
   });
-  xdescribe("Get All Articles", () => {
+  describe("Get All Articles", () => {
     test("Get all articles objects in the database", () => {
-      request
+      return request(app)
         .get("/api/articles")
         .expect(200)
         .then(({ body }) => {
-          console.log(body);
+          expect(body.articles).toHaveLength(5);
+          body.articles.forEach((article) => {
+            expect(typeof article.article_id).toBe("number");
+            expect(typeof article.title).toBe("string");
+            expect(typeof article.author).toBe("string");
+            expect(typeof article.created_at).toBe("string");
+            expect(typeof article.votes).toBe("number");
+            expect(typeof article.article_img_url).toBe("string");
+            expect(typeof article.comments_count).toBe("string");
+          });
+        });
+    });
+    test("Get all articles sorted by date DESC", () => {
+      return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.articles).toBeSorted({
+            key: "created_at",
+            descending: true,
+          });
         });
     });
   });
