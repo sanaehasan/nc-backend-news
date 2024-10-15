@@ -11,5 +11,12 @@ exports.getArticleByID = (request, response, next) => {
 };
 
 exports.getArticles = (request, response, next) => {
-  return fetchArticles();
+  return fetchArticles()
+    .then((articles) => {
+      return response.status(200).send({ articles: articles });
+    })
+    .catch((err) => {
+      console.log(err);
+      next(err);
+    });
 };

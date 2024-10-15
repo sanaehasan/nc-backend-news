@@ -10,5 +10,12 @@ exports.fetchArticleById = (id) => {
     });
 };
 exports.fetchArticles = (sort_by = "created_at", order = "DESC") => {
-  console.log("hello model is here");
+  let queryStr = `SELECT a.title, a.article_id, a.topic, a.created_at,a.votes,a.article_img_url, a.author ,COUNT(comment_id) FROM articles a JOIN comments c ON a.article_id=c.article_id GROUP BY a.title, a.article_id, a.topic, a.created_at,a.votes,a.article_img_url, a.author`;
+  //here will come other query items WHERE
+  const orderby = ` ORDER BY ${sort_by} ${order}`;
+  queryStr += orderby;
+
+  return db.query(queryStr).then(({ rows }) => {
+    return rows;
+  });
 };

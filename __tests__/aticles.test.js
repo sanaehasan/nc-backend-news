@@ -48,9 +48,9 @@ describe("Articles End Point", () => {
         });
     });
   });
-  xdescribe("Get All Articles", () => {
+  describe("Get All Articles", () => {
     test("Get all articles objects in the database", () => {
-      request
+      return request(app)
         .get("/api/articles")
         .expect(200)
         .then(({ body }) => {
