@@ -17,13 +17,25 @@ exports.getCommentsByArticleId = (request, response, next) => {
 exports.addComment = (request, response, next) => {
   const { article_id } = request.params;
   const data = request.body;
-  data.created_at = Date(Date.now());
+  if (
+    Object.keys(data).length === 0 ||
+    Object.keys(data).length !== 4 ||
+    !request.body.votes ||
+    !request.body.body ||
+    !request.body.author ||
+    !request.body.created_at
+  ) {
+    return response.status(400).send({ msg: "Invalid Object data" });
+  }
+
+  data.created_at = new Date(data.created_at);
   data.article_id = article_id;
+
   writeComment(article_id, data)
-    .then((result) => {
-      console.log(result);
+    .then((comment) => {
+      response.status(201).send({ comment: comment[0] });
     })
     .catch((err) => {
-      console.log(err);
+      next(err);
     });
 };

@@ -45,7 +45,7 @@ describe("Articles End Point", () => {
         .get("/api/articles/something")
         .expect(400)
         .then(({ body }) => {
-          expect(body.msg).toBe("invalid id type");
+          expect(body.msg).toBe("invalid type");
         });
     });
   });
