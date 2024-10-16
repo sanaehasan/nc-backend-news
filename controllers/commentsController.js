@@ -16,18 +16,12 @@ exports.getCommentsByArticleId = (request, response, next) => {
 
 exports.addComment = (request, response, next) => {
   const { article_id } = request.params;
-  const data = request.body;
-  if (
-    Object.keys(data).length === 0 ||
-    Object.keys(data).length !== 4 ||
-    !request.body.votes ||
-    !request.body.body ||
-    !request.body.author ||
-    !request.body.created_at
-  ) {
-    return response.status(400).send({ msg: "Invalid Object data" });
-  }
 
+  const data = request.body.body;
+  if (Object.keys(data).length === 0) {
+    return response.status(400).send({ msg: "comment data is empty" });
+  }
+  data.author = request.body.username;
   data.created_at = new Date(data.created_at);
   data.article_id = article_id;
 

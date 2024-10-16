@@ -67,15 +67,15 @@ describe("Comments End Point", () => {
   });
   describe("POST:201 add comments to article", () => {
     test("POST:201 write a comment by article_id", () => {
-      const comment = {
+      const body = {
         body: "hello this is sanae's comment!",
         votes: 16,
-        author: "butter_bridge",
         created_at: 1586179020000,
       };
+      const username = "butter_bridge";
       return request(app)
         .post("/api/articles/1/comments")
-        .send(comment)
+        .send({ body: body, username: username })
         .expect(201)
         .then(({ body }) => {
           const comment = {
@@ -93,47 +93,44 @@ describe("Comments End Point", () => {
         });
     });
     test("POST:404 comment with id that does not exist in the database", () => {
-      const comment = {
+      const body = {
         body: "hello this is sanae's comment!",
         votes: 16,
-        author: "butter_bridge",
         created_at: 1586179020000,
       };
+      const username = "butter_bridge";
       return request(app)
         .post("/api/articles/9999/comments")
-        .send(comment)
+        .send({ body: body, username: username })
         .expect(404)
         .then(({ body }) => {
           expect(body.msg).toBe("Article not found");
         });
     });
     test("POST:400 comment with an invalid value articel_id", () => {
-      const comment = {
+      const body = {
         body: "hello this is sanae's comment!",
         votes: 16,
-        author: "butter_bridge",
         created_at: 1586179020000,
       };
+      const username = "butter_bridge";
       return request(app)
         .post("/api/articles/invalid/comments")
-        .send(comment)
+        .send({ body: body, username: username })
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("invalid type");
         });
     });
     test("POST:400 article with id has an invalid object", () => {
-      const comment = {
-        votes: 16,
-        authors: "butter_bridge",
-        created: 1586179020000,
-      };
+      const body = {};
+      const username = "butter_bridge";
       return request(app)
         .post("/api/articles/1/comments")
-        .send(comment)
+        .send({ body: body, username: username })
         .expect(400)
         .then(({ body }) => {
-          expect(body.msg).toBe("Invalid Object data");
+          expect(body.msg).toBe("comment data is empty");
         });
     });
   });

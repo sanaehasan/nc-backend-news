@@ -28,7 +28,7 @@ exports.fetchComments = (
 exports.writeComment = (article_id, comment) => {
   const querystr = format(
     `INSERT INTO comments 
-      (body,votes,author,created_at,article_id) 
+      (body,votes,created_at,author,article_id) 
       VALUES %L 
       RETURNING *`,
     [Object.values(comment)]
