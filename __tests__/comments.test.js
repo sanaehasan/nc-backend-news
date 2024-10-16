@@ -13,7 +13,7 @@ afterAll(() => {
 });
 
 describe("Comments End Point", () => {
-  describe("Get:200 status Comments by article_id", () => {
+  describe("Get:200 status get comments by article_id", () => {
     test("Get:200 all comments by article_id", () => {
       return request(app)
         .get("/api/articles/1/comments")
@@ -62,6 +62,23 @@ describe("Comments End Point", () => {
             key: "created_at",
             descending: true,
           });
+        });
+    });
+  });
+  xdescribe("POST:201 add comments to article", () => {
+    test("POST:201 write a comment by article_id", () => {
+      const comment = {
+        body: "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+        votes: 16,
+        author: "butter_bridge",
+        created_at: 1586179020000,
+      };
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send(comment)
+        .expect(201)
+        .then(({ body }) => {
+          console.log(body);
         });
     });
   });

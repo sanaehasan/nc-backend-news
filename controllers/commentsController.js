@@ -1,4 +1,5 @@
-const { fetchComments } = require("../model/commentsModel");
+const { convertTimestampToDate } = require("../db/seeds/utils");
+const { fetchComments, writeComment } = require("../model/commentsModel");
 
 exports.getCommentsByArticleId = (request, response, next) => {
   return fetchComments(request.params.article_id)
@@ -10,5 +11,19 @@ exports.getCommentsByArticleId = (request, response, next) => {
     })
     .catch((err) => {
       next(err);
+    });
+};
+
+exports.addComment = (request, response, next) => {
+  const { article_id } = request.params;
+  const data = request.body;
+  data.created_at = Date(Date.now());
+  data.article_id = article_id;
+  writeComment(article_id, data)
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
