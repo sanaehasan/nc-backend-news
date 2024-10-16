@@ -1,4 +1,5 @@
 const db = require("../db/connection.js");
+
 exports.fetchArticleById = (id) => {
   return db
     .query("SELECT * FROM articles WHERE article_id=$1", [id])
@@ -9,6 +10,7 @@ exports.fetchArticleById = (id) => {
       return rows;
     });
 };
+
 exports.fetchArticles = (sort_by = "created_at", order = "DESC") => {
   let queryStr = `SELECT 
                  a.title,

@@ -13,7 +13,7 @@ afterAll(() => {
 });
 
 describe("Comments End Point", () => {
-  describe("Get:200 status Comments by article_id", () => {
+  describe("Get:200 status get comments by article_id", () => {
     test("Get:200 all comments by article_id", () => {
       return request(app)
         .get("/api/articles/1/comments")
@@ -34,7 +34,7 @@ describe("Comments End Point", () => {
         .get("/api/articles/invalid/comments")
         .expect(400)
         .then(({ body }) => {
-          expect(body.msg).toBe("invalid id type");
+          expect(body.msg).toBe("invalid type");
         });
     });
     test("Get:404 when the article_id is valid type but not present in the database", () => {
@@ -62,6 +62,75 @@ describe("Comments End Point", () => {
             key: "created_at",
             descending: true,
           });
+        });
+    });
+  });
+  describe("POST:201 add comments to article", () => {
+    test("POST:201 write a comment by article_id", () => {
+      const body = {
+        body: "hello this is sanae's comment!",
+        votes: 16,
+        created_at: 1586179020000,
+      };
+      const username = "butter_bridge";
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ body: body, username: username })
+        .expect(201)
+        .then(({ body }) => {
+          const comment = {
+            article_id: 1,
+            title: "Living in the shadow of a great man",
+            topic: "mitch",
+            author: "butter_bridge",
+            body: "I find this existence challenging",
+            created_at: "2020-07-09T20:11:00.000Z",
+            votes: 100,
+            article_img_url:
+              "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+          };
+          expect(body.comment).toMatchObject(comment);
+        });
+    });
+    test("POST:404 comment with id that does not exist in the database", () => {
+      const body = {
+        body: "hello this is sanae's comment!",
+        votes: 16,
+        created_at: 1586179020000,
+      };
+      const username = "butter_bridge";
+      return request(app)
+        .post("/api/articles/9999/comments")
+        .send({ body: body, username: username })
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Article not found");
+        });
+    });
+    test("POST:400 comment with an invalid value articel_id", () => {
+      const body = {
+        body: "hello this is sanae's comment!",
+        votes: 16,
+        created_at: 1586179020000,
+      };
+      const username = "butter_bridge";
+      return request(app)
+        .post("/api/articles/invalid/comments")
+        .send({ body: body, username: username })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("invalid type");
+        });
+    });
+    test("POST:400 article with id has an invalid object", () => {
+      const body = {};
+      const username = "butter_bridge";
+      return request(app)
+        .post("/api/articles/1/comments")
+        .send({ body: body, username: username })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("comment data is empty");
         });
     });
   });

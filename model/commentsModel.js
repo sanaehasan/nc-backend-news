@@ -1,3 +1,4 @@
+const format = require("pg-format");
 const db = require("../db/connection.js");
 const { fetchArticleById } = require("./articlesModel");
 
@@ -22,4 +23,20 @@ exports.fetchComments = (
   return db.query(quertystr + orderBy).then(({ rows }) => {
     return rows;
   });
+};
+
+exports.writeComment = (article_id, comment) => {
+  const querystr = format(
+    `INSERT INTO comments 
+      (body,votes,created_at,author,article_id) 
+      VALUES %L 
+      RETURNING *`,
+    [Object.values(comment)]
+  );
+
+  return Promise.all([fetchArticleById(article_id), db.query(querystr)]).then(
+    (result) => {
+      return result[0];
+    }
+  );
 };
