@@ -14,7 +14,7 @@ afterAll(() => {
 
 describe("Articles End Point", () => {
   describe("Get Article by Id", () => {
-    test("GET:200 response with article object that has the id 1", () => {
+    test("Get:200 response with article object that has the id 1", () => {
       return request(app)
         .get("/api/articles/1")
         .expect(200)
@@ -32,7 +32,7 @@ describe("Articles End Point", () => {
           });
         });
     });
-    test("GET:404 when passed a valid id which is not present in the dataBase", () => {
+    test("Get:404 when passed a valid id which is not present in the dataBase", () => {
       return request(app)
         .get("/api/articles/9999")
         .expect(404)
@@ -80,9 +80,9 @@ describe("Articles End Point", () => {
         });
     });
   });
-  describe("Patch:200 update article", () => {
-    describe("Patch:200 update article's votes", () => {
-      test("vote should increase by 2", () => {
+  describe("Update article", () => {
+    describe("Update article's votes", () => {
+      test("Patch:200 vote should increase by 2", () => {
         const vote = { inc_votes: 2 };
         return request(app)
           .patch("/api/articles/1")
@@ -137,7 +137,7 @@ describe("Articles End Point", () => {
     });
   });
   describe("Get All Articles with query arguments", () => {
-    test("Get :200 all articles objects in the database exclusing the body and with a comments count", () => {
+    test("Get:200 all articles objects in the database exclusing the body and with a comments count", () => {
       return request(app)
         .get("/api/articles")
         .query({ sort_by: "article_id", order: "ASC" })
@@ -186,7 +186,7 @@ describe("Articles End Point", () => {
         });
     });
   });
-  test("Get :200 all articles objects in the database that has topic", () => {
+  test("Get:200 all articles objects in the database that has topic", () => {
     return request(app)
       .get("/api/articles")
       .query({ topic: "mitch" })
