@@ -76,7 +76,6 @@ describe("Comments End Point", () => {
         .send({ body: body, username: username })
         .expect(201)
         .then(({ body }) => {
-          console.log(body);
           const comment = {
             comment_id: 19,
             body: "hello this is sanae's comment!",
@@ -122,6 +121,27 @@ describe("Comments End Point", () => {
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("comment data is empty");
+        });
+    });
+  });
+  describe("DELETE:204 delete comment by comment_id", () => {
+    test("Delete:204 status with no return msg, delete comment with id=1", () => {
+      return request(app).delete("/api/comments/1").expect(204);
+    });
+    test("Delete:400 status  delete comment with invalid id", () => {
+      return request(app)
+        .delete("/api/comments/invalid")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("invalid type");
+        });
+    });
+    test("Delete:404 status  delete comment with invalid id", () => {
+      return request(app)
+        .delete("/api/comments/9999")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("comment id does not exist");
         });
     });
   });

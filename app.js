@@ -14,6 +14,7 @@ const {
 const {
   getCommentsByArticleId,
   addComment,
+  destroyCommentById,
 } = require("./controllers/commentsController");
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", addComment);
 app.patch("/api/articles/:article_id", UpdateArticleVotes);
+app.delete("/api/comments/:comment_id", destroyCommentById);
 app.all("*", (request, response, next) => {
   response.status(404).send({ msg: "Endpoint does not exist" });
 });
