@@ -36,8 +36,22 @@ exports.writeComment = (article_id, comment) => {
 
   return Promise.all([fetchArticleById(article_id), db.query(querystr)]).then(
     (result) => {
-      console.log(result[1].rows[0]);
       return result[1].rows[0];
     }
   );
+};
+
+exports.deleteCommentById = (comment_id) => {
+  return db
+    .query("DELETE FROM comments WHERE comment_id=$1", [comment_id])
+    .then((results) => {
+      if (results.rowCount === 0) {
+        return Promise.reject({
+          status: 404,
+          msg: "comment id does not exist",
+        });
+      } else {
+        return results;
+      }
+    });
 };

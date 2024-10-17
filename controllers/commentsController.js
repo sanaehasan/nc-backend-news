@@ -1,5 +1,8 @@
-const { convertTimestampToDate } = require("../db/seeds/utils");
-const { fetchComments, writeComment } = require("../model/commentsModel");
+const {
+  fetchComments,
+  writeComment,
+  deleteCommentById,
+} = require("../model/commentsModel");
 
 exports.getCommentsByArticleId = (request, response, next) => {
   return fetchComments(request.params.article_id)
@@ -22,12 +25,22 @@ exports.addComment = (request, response, next) => {
     return response.status(400).send({ msg: "comment data is empty" });
   }
   data.author = request.body.username;
-
   data.article_id = article_id;
 
   writeComment(article_id, data)
     .then((comment) => {
       response.status(201).send({ comment: comment });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.destroyCommentById = (request, response, next) => {
+  const { comment_id } = request.params;
+  deleteCommentById(comment_id)
+    .then(() => {
+      return response.status(204).send();
     })
     .catch((err) => {
       next(err);
