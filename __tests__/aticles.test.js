@@ -103,6 +103,7 @@ describe("Articles End Point", () => {
             expect(body.article.votes).toBe(102);
           });
       });
+
       test("Patch:400 when passed invalid votes value", () => {
         const vote = { inc_votes: "invalid" };
         return request(app)
@@ -111,6 +112,26 @@ describe("Articles End Point", () => {
           .expect(400)
           .then(({ body }) => {
             expect(body.msg).toBe("invalid data type");
+          });
+      });
+      test("Patch:400 when passed invalid article_id value", () => {
+        const vote = { inc_votes: 2 };
+        return request(app)
+          .patch("/api/articles/invalid")
+          .send(vote)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("invalid type");
+          });
+      });
+      test("Patch:404 when passed non existant articla_id", () => {
+        const vote = { inc_votes: 2 };
+        return request(app)
+          .patch("/api/articles/9999")
+          .send(vote)
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).toBe("Article not found");
           });
       });
     });
