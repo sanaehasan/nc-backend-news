@@ -30,7 +30,6 @@ exports.UpdateArticleVotes = (request, response, next) => {
       return response.status(200).send({ article: article });
     })
     .catch((err) => {
-      console.log(err);
       next(err);
     });
 };

@@ -28,15 +28,16 @@ exports.fetchComments = (
 exports.writeComment = (article_id, comment) => {
   const querystr = format(
     `INSERT INTO comments 
-      (body,votes,created_at,author,article_id) 
+      (body,author,article_id) 
       VALUES %L 
-      RETURNING *`,
+      RETURNING comments.*`,
     [Object.values(comment)]
   );
 
   return Promise.all([fetchArticleById(article_id), db.query(querystr)]).then(
     (result) => {
-      return result[0];
+      console.log(result[1].rows[0]);
+      return result[1].rows[0];
     }
   );
 };

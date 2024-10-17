@@ -22,12 +22,12 @@ exports.addComment = (request, response, next) => {
     return response.status(400).send({ msg: "comment data is empty" });
   }
   data.author = request.body.username;
-  data.created_at = new Date(data.created_at);
+
   data.article_id = article_id;
 
   writeComment(article_id, data)
     .then((comment) => {
-      response.status(201).send({ comment: comment[0] });
+      response.status(201).send({ comment: comment });
     })
     .catch((err) => {
       next(err);

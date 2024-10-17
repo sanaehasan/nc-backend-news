@@ -69,8 +69,6 @@ describe("Comments End Point", () => {
     test("POST:201 write a comment by article_id", () => {
       const body = {
         body: "hello this is sanae's comment!",
-        votes: 16,
-        created_at: 1586179020000,
       };
       const username = "butter_bridge";
       return request(app)
@@ -78,16 +76,13 @@ describe("Comments End Point", () => {
         .send({ body: body, username: username })
         .expect(201)
         .then(({ body }) => {
+          console.log(body);
           const comment = {
+            comment_id: 19,
+            body: "hello this is sanae's comment!",
             article_id: 1,
-            title: "Living in the shadow of a great man",
-            topic: "mitch",
             author: "butter_bridge",
-            body: "I find this existence challenging",
-            created_at: "2020-07-09T20:11:00.000Z",
-            votes: 100,
-            article_img_url:
-              "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+            votes: 0,
           };
           expect(body.comment).toMatchObject(comment);
         });
@@ -95,8 +90,6 @@ describe("Comments End Point", () => {
     test("POST:404 comment with id that does not exist in the database", () => {
       const body = {
         body: "hello this is sanae's comment!",
-        votes: 16,
-        created_at: 1586179020000,
       };
       const username = "butter_bridge";
       return request(app)
@@ -110,8 +103,6 @@ describe("Comments End Point", () => {
     test("POST:400 comment with an invalid value articel_id", () => {
       const body = {
         body: "hello this is sanae's comment!",
-        votes: 16,
-        created_at: 1586179020000,
       };
       const username = "butter_bridge";
       return request(app)
