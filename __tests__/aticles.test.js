@@ -136,4 +136,54 @@ describe("Articles End Point", () => {
       });
     });
   });
+  describe("Get All Articles with query arguments", () => {
+    test("Get :200 all articles objects in the database exclusing the body and with a comments count", () => {
+      return request(app)
+        .get("/api/articles")
+        .query({ sort_by: "article_id", order: "ASC" })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.articles).toHaveLength(5);
+          body.articles.forEach((article) => {
+            expect(typeof article.article_id).toBe("number");
+            expect(typeof article.title).toBe("string");
+            expect(typeof article.author).toBe("string");
+            expect(typeof article.created_at).toBe("string");
+            expect(typeof article.votes).toBe("number");
+            expect(typeof article.article_img_url).toBe("string");
+            expect(typeof article.comments_count).toBe("string");
+            expect(article.body).toBeUndefined();
+          });
+        });
+    });
+    test("Get:200 all articles sorted by date DESC", () => {
+      return request(app)
+        .get("/api/articles")
+        .query({ sort_by: "article_id", order: "ASC" })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.articles).toBeSorted({
+            key: "article_id",
+          });
+        });
+    });
+    test("Get:400 bad request when sort_by argument is non existant in the database", () => {
+      return request(app)
+        .get("/api/articles")
+        .query({ sort_by: "invalid", order: "ASC" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("invalid data type");
+        });
+    });
+    test("Get:400 bad request when order argument is invalid", () => {
+      return request(app)
+        .get("/api/articles")
+        .query({ sort_by: "article_id", order: "invalid" })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("invalid argument");
+        });
+    });
+  });
 });

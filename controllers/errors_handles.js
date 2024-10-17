@@ -3,6 +3,8 @@ exports.handlePSQLError = (err, request, response, next) => {
     response.status(400).send({ msg: "invalid type" });
   } else if (err.code === "42703") {
     response.status(400).send({ msg: "invalid data type" });
+  } else if (err.code === "42601") {
+    response.status(400).send({ msg: "invalid argument" });
   } else {
     next(err);
   }
