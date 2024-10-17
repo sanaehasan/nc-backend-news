@@ -31,3 +31,17 @@ exports.fetchArticles = (sort_by = "created_at", order = "DESC") => {
     return rows;
   });
 };
+
+exports.patchArticelVotes = (vote, article_id) => {
+  return db
+    .query(
+      `UPDATE articles 
+      SET votes=votes+${vote}
+      WHERE article_id=$1 
+      RETURNING *`,
+      [article_id]
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};

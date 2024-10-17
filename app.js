@@ -9,6 +9,7 @@ const {
 const {
   getArticleByID,
   getArticles,
+  UpdateArticleVotes,
 } = require("./controllers/articlesControler");
 const {
   getCommentsByArticleId,
@@ -22,6 +23,7 @@ app.get("/api/articles/:article_id", getArticleByID);
 app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", addComment);
+app.patch("/api/articles/:article_id", UpdateArticleVotes);
 app.all("*", (request, response, next) => {
   response.status(404).send({ msg: "Endpoint does not exist" });
 });

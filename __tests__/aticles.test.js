@@ -80,4 +80,39 @@ describe("Articles End Point", () => {
         });
     });
   });
+  describe("Patch:200 update article", () => {
+    describe("Patch:200 update article's votes", () => {
+      test("vote should increase by 2", () => {
+        const vote = { inc_votes: 2 };
+        return request(app)
+          .patch("/api/articles/1")
+          .send(vote)
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.article).toMatchObject({
+              article_id: 1,
+              title: "Living in the shadow of a great man",
+              topic: "mitch",
+              author: "butter_bridge",
+              body: "I find this existence challenging",
+              created_at: "2020-07-09T20:11:00.000Z",
+              votes: 102,
+              article_img_url:
+                "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+            });
+            expect(body.article.votes).toBe(102);
+          });
+      });
+      test("Patch:400 when passed invalid votes value", () => {
+        const vote = { inc_votes: "invalid" };
+        return request(app)
+          .patch("/api/articles/1")
+          .send(vote)
+          .expect(400)
+          .then(({ body }) => {
+            expect(body.msg).toBe("invalid data type");
+          });
+      });
+    });
+  });
 });
