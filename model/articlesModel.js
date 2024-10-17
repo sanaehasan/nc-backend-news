@@ -11,7 +11,7 @@ exports.fetchArticleById = (id) => {
     });
 };
 
-exports.fetchArticles = (sort_by = "created_at", order = "DESC") => {
+exports.fetchArticles = (sort_by = "created_at", order = "DESC", topic) => {
   let queryStr = `SELECT 
                  a.title,
                  a.article_id,
@@ -22,12 +22,18 @@ exports.fetchArticles = (sort_by = "created_at", order = "DESC") => {
                  a.author,
                  COUNT(comment_id) as comments_count 
                  FROM articles a JOIN comments c ON a.article_id=c.article_id 
-                 GROUP BY  a.article_id`;
-  //here will come other query items WHERE
+                 `;
+  if (topic) {
+    queryStr += ` WHERE a.topic='${topic}'`;
+  }
+  queryStr += ` GROUP BY a.article_id`;
   const orderby = ` ORDER BY ${sort_by} ${order}`;
   queryStr += orderby;
 
   return db.query(queryStr).then(({ rows }) => {
+    if (rows.length === 0) {
+      return Promise.reject({ status: 404, msg: "Articles not found" });
+    }
     return rows;
   });
 };

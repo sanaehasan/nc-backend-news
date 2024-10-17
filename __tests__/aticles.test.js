@@ -111,7 +111,7 @@ describe("Articles End Point", () => {
           .send(vote)
           .expect(400)
           .then(({ body }) => {
-            expect(body.msg).toBe("invalid data type");
+            expect(body.msg).toBe("invalid query data");
           });
       });
       test("Patch:400 when passed invalid article_id value", () => {
@@ -173,7 +173,7 @@ describe("Articles End Point", () => {
         .query({ sort_by: "invalid", order: "ASC" })
         .expect(400)
         .then(({ body }) => {
-          expect(body.msg).toBe("invalid data type");
+          expect(body.msg).toBe("invalid query data");
         });
     });
     test("Get:400 bad request when order argument is invalid", () => {
@@ -185,5 +185,26 @@ describe("Articles End Point", () => {
           expect(body.msg).toBe("invalid argument");
         });
     });
+  });
+  test("Get :200 all articles objects in the database that has topic", () => {
+    return request(app)
+      .get("/api/articles")
+      .query({ topic: "mitch" })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toHaveLength(4);
+        body.articles.forEach((article) => {
+          expect(article.topic).toBe("mitch");
+        });
+      });
+  });
+  test("Get:400  when topic does not exist", () => {
+    return request(app)
+      .get("/api/articles")
+      .query({ topic: "sanae" })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Articles not found");
+      });
   });
 });
