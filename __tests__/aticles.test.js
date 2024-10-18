@@ -208,13 +208,22 @@ describe("Articles End Point", () => {
         });
       });
   });
-  test("Get:400  when topic does not exist", () => {
+  test("Get:404  when topic does not exist", () => {
     return request(app)
       .get("/api/articles")
       .query({ topic: "sanae" })
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("Articles not found");
+      });
+  });
+  test("Get:200  when topic exist but not linked to an article", () => {
+    return request(app)
+      .get("/api/articles")
+      .query({ topic: "paper" })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toHaveLength(0);
       });
   });
 });

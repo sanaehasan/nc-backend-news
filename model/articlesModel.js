@@ -12,6 +12,7 @@ exports.fetchArticleById = (id) => {
 };
 
 exports.fetchArticles = (sort_by = "created_at", order = "DESC", topic) => {
+  const queryArray = [];
   let queryStr = `SELECT 
                  a.title,
                  a.article_id,
@@ -25,16 +26,17 @@ exports.fetchArticles = (sort_by = "created_at", order = "DESC", topic) => {
                  `;
   if (topic) {
     queryStr += ` WHERE a.topic='${topic}'`;
+    queryArray.push(db.query("SELECT * FROM topics WHERE slug =$1", [topic]));
   }
   queryStr += ` GROUP BY a.article_id`;
   const orderby = ` ORDER BY ${sort_by} ${order}`;
   queryStr += orderby;
-
-  return db.query(queryStr).then(({ rows }) => {
-    if (rows.length === 0) {
+  queryArray.push(db.query(queryStr));
+  return Promise.all(queryArray).then((result) => {
+    if (result.length === 2 && result[0].rows.length === 0) {
       return Promise.reject({ status: 404, msg: "Articles not found" });
     }
-    return rows;
+    return result[result.length - 1].rows;
   });
 };
 
