@@ -23,8 +23,6 @@ app.get("/api", getEndpoint);
 app.get("/api/topics", getAlltopics);
 app.get("/api/articles/:article_id", getArticleByID);
 app.get("/api/articles", getArticles);
-app.get("/api/articles?sort_by=:sort_by&order=:order", getArticles);
-app.get("/api/articles?topic=:topic", () => {});
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", addComment);
 app.patch("/api/articles/:article_id", UpdateArticleVotes);
