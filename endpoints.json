@@ -59,7 +59,7 @@
     }
   },
   "Patch /api/articles/:article_id": {
-    "description": "update article",
+    "description": "update article's vote",
     "queries": ["inc_votes", "article_id"],
     "exampleResponse": {
       "articles": [
