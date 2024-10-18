@@ -9,8 +9,6 @@ PGDATABASE=database_name_here
 to clone this project please follow the example below :
 $git clone https://github.com/sanaehasan/nc-backend-news.git
 
-Hosted version of this API can be found in this link : https://nc-backend-news.onrender.com
-
 install dependencies by using the command :
 $ npm install
 
@@ -25,3 +23,5 @@ $npm run seed
 The minimum versions to run this this project
 Node.js:v22.9.0
 Postgres:psql (PostgreSQL) 14.13
+
+Hosted version of this API can be found in this link : https://nc-backend-news.onrender.com
