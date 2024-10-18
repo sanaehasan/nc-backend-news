@@ -2,7 +2,15 @@ const db = require("../db/connection.js");
 
 exports.fetchArticleById = (id) => {
   return db
-    .query("SELECT * FROM articles WHERE article_id=$1", [id])
+    .query(
+      `SELECT 
+                 a.*,
+                 COUNT(c.comment_id) as comments_count 
+                 FROM articles a LEFT JOIN comments c ON a.article_id=c.article_id 
+                 WHERE a.article_id=$1 
+                 GROUP BY a.article_id`,
+      [id]
+    )
     .then(({ rows }) => {
       if (rows.length === 0) {
         return Promise.reject({ status: 404, msg: "Article not found" });
