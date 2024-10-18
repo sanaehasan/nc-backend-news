@@ -186,6 +186,16 @@ describe("Articles End Point", () => {
         });
     });
   });
+  test("Get:200 test other query are ingored", () => {
+    return request(app)
+      .get("/api/articles")
+      .query({ getBy: "article_id" })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toHaveLength(5);
+      });
+  });
+
   test("Get:200 all articles objects in the database that has topic", () => {
     return request(app)
       .get("/api/articles")
