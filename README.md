@@ -1,8 +1,8 @@
 # Northcoders News API
 
-This is an API application that represent a mini version of a news API that serves articles and give possiblity to users to add comments and votes linked to this articles.
+This is an API application that represents a mini version of a news API that serves articles and allows users to add comments and votes linked to them.
 
-To run the API locally, you need to add two environment variables files, one for development (.env.development) and another one for the test (.env.test).
+To run the API locally, you must add two environment variables files, one for development (.env.development) and another for the test (.env.test).
 Add the names of your development and test databases to these files as demonstrated in the example below:
 PGDATABASE=database_name_here
 
@@ -20,8 +20,9 @@ $npm set-up dbs
 To seed the local database run the command:
 $npm run seed
 
-The minimum versions to run this this project
+The minimum versions to run this project
+
 Node.js:v22.9.0
 Postgres:psql (PostgreSQL) 14.13
 
-Hosted version of this API can be found in this link : https://nc-backend-news.onrender.com
+The hosted version of this API can be found at this link : https://nc-backend-news.onrender.com
