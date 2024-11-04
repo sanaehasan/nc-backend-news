@@ -1,6 +1,7 @@
 const express = require("express");
 const { getEndpoint } = require("./controllers/endPoint");
 const { getAlltopics } = require("./controllers/tpoicsController");
+const cors = require("cors");
 const {
   handlePSQLError,
   handleCustomErrors,
@@ -18,6 +19,7 @@ const {
 } = require("./controllers/commentsController");
 const { getUsers } = require("./controllers/usersController");
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.get("/api", getEndpoint);
 app.get("/api/topics", getAlltopics);
