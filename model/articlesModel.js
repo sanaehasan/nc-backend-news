@@ -1,4 +1,6 @@
+const format = require("pg-format");
 const db = require("../db/connection.js");
+const articles = require("../db/data/test-data/articles.js");
 
 exports.fetchArticleById = (id) => {
   return db
@@ -63,4 +65,16 @@ exports.patchArticelVotes = (vote, article_id) => {
       }
       return rows[0];
     });
+};
+
+exports.postArticle = (article) => {
+  const querystr = format(
+    `INSERT INTO articles (title,topic,author,body,created_at,votes,article_img_url)
+      VALUES %L 
+      RETURNING *`,
+    [Object.values(article)]
+  );
+  return db.query(querystr).then(({ rows }) => {
+    return rows[0];
+  });
 };

@@ -2,6 +2,7 @@ const {
   fetchArticleById,
   fetchArticles,
   patchArticelVotes,
+  postArticle,
 } = require("../model/articlesModel");
 
 exports.getArticleByID = (request, response, next) => {
@@ -29,6 +30,19 @@ exports.UpdateArticleVotes = (request, response, next) => {
   return patchArticelVotes(request.body.inc_votes, article_id)
     .then((article) => {
       return response.status(200).send({ article: article });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.addArticle = (request, response, next) => {
+  // console.log(request.body);
+  const article = request.body;
+
+  postArticle(article)
+    .then((data) => {
+      response.status(201).send({ article: data });
     })
     .catch((err) => {
       next(err);

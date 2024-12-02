@@ -11,6 +11,7 @@ const {
   getArticleByID,
   getArticles,
   UpdateArticleVotes,
+  addArticle,
 } = require("./controllers/articlesControler");
 const {
   getCommentsByArticleId,
@@ -25,6 +26,7 @@ app.get("/api", getEndpoint);
 app.get("/api/topics", getAlltopics);
 app.get("/api/articles/:article_id", getArticleByID);
 app.get("/api/articles", getArticles);
+app.post("/api/articles", addArticle);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", addComment);
 app.patch("/api/articles/:article_id", UpdateArticleVotes);

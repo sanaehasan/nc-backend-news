@@ -269,4 +269,39 @@ describe("Articles End Point", () => {
         });
     });
   });
+  describe("Post articles endpoint", () => {
+    describe("Post:post and artile", () => {
+      test("POST:201 status return posted artile with an id ", () => {
+        const newarticle = {
+          title:
+            "The Challenges of Creating a Mobile App: Navigating a Complex Landscape",
+          topic: "paper",
+          author: "butter_bridge",
+          body: "The Challenges of Creating a Mobile App: Navigating a Complex Landscape Developing a mobile application is an exciting yet intricate journey that requires careful planning, technical expertise, and strategic thinking. While the potential for success is significant, developers and entrepreneurs face numerous challenges throughout the app creation process.",
+          created_at: "2024-12-02T12:03:00.000Z",
+          votes: 0,
+          article_img_url:
+            "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?w=700&h=700",
+        };
+        return request(app)
+          .post("/api/articles")
+          .send(newarticle)
+          .expect(201)
+          .then(({ body }) => {
+            expect(body.article).toMatchObject({
+              article_id: 14,
+              title:
+                "The Challenges of Creating a Mobile App: Navigating a Complex Landscape",
+              topic: "paper",
+              author: "butter_bridge",
+              body: "The Challenges of Creating a Mobile App: Navigating a Complex Landscape Developing a mobile application is an exciting yet intricate journey that requires careful planning, technical expertise, and strategic thinking. While the potential for success is significant, developers and entrepreneurs face numerous challenges throughout the app creation process.",
+              created_at: "2024-12-02T12:03:00.000Z",
+              votes: 0,
+              article_img_url:
+                "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?w=700&h=700",
+            });
+          });
+      });
+    });
+  });
 });
