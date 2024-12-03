@@ -12,6 +12,7 @@ const {
   getArticles,
   UpdateArticleVotes,
   addArticle,
+  deleteArticle,
 } = require("./controllers/articlesControler");
 const {
   getCommentsByArticleId,
@@ -27,6 +28,7 @@ app.get("/api/topics", getAlltopics);
 app.get("/api/articles/:article_id", getArticleByID);
 app.get("/api/articles", getArticles);
 app.post("/api/articles", addArticle);
+app.delete("/api/articles/:article_id", deleteArticle);
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", addComment);
 app.patch("/api/articles/:article_id", UpdateArticleVotes);

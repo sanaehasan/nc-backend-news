@@ -3,6 +3,7 @@ const {
   fetchArticles,
   patchArticelVotes,
   postArticle,
+  removeArticle,
 } = require("../model/articlesModel");
 
 exports.getArticleByID = (request, response, next) => {
@@ -47,4 +48,9 @@ exports.addArticle = (request, response, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.deleteArticle = (request, response, next) => {
+  const { article_id } = request.params;
+  removeArticle(article_id);
 };

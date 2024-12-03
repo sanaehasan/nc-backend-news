@@ -78,3 +78,9 @@ exports.postArticle = (article) => {
     return rows[0];
   });
 };
+
+exports.removeArticle = (id) => {
+  return db
+    .query("delete from articles where article_id=$1", [id])
+    .then(({ rows }) => {});
+};

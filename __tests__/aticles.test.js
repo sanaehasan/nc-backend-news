@@ -269,9 +269,9 @@ describe("Articles End Point", () => {
         });
     });
   });
-  describe("Post articles endpoint", () => {
-    describe("Post:post and artile", () => {
-      test("POST:201 status return posted artile with an id ", () => {
+  describe("Post articles ", () => {
+    describe("Post:post and article", () => {
+      test("POST:201 status return posted article with an id ", () => {
         const newarticle = {
           title:
             "The Challenges of Creating a Mobile App: Navigating a Complex Landscape",
@@ -304,4 +304,16 @@ describe("Articles End Point", () => {
       });
     });
   });
+  // describe("Delete article", () => {
+  //   describe("Delete an article from articles table", () => {
+  //     xtest("Delete:204 status with no data", () => {
+  //       return request(app)
+  //         .delete("/api/articles/1")
+  //         .expect(204)
+  //         .then((data) => {
+  //           console.log(data);
+  //         });
+  //     });
+  //   });
+  // });
 });
