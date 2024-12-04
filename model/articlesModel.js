@@ -1,6 +1,7 @@
 const format = require("pg-format");
 const db = require("../db/connection.js");
 const articles = require("../db/data/test-data/articles.js");
+const { response } = require("../app.js");
 
 exports.fetchArticleById = (id) => {
   return db
@@ -82,5 +83,7 @@ exports.postArticle = (article) => {
 exports.removeArticle = (id) => {
   return db
     .query("delete from articles where article_id=$1", [id])
-    .then(({ rows }) => {});
+    .then(({ rows }) => {
+      return rows;
+    });
 };

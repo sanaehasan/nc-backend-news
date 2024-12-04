@@ -52,5 +52,11 @@ exports.addArticle = (request, response, next) => {
 
 exports.deleteArticle = (request, response, next) => {
   const { article_id } = request.params;
-  removeArticle(article_id);
+  removeArticle(article_id)
+    .then((data) => {
+      response.status(204).send({ msg: "elements deleted" });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };

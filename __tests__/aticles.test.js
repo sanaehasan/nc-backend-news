@@ -304,16 +304,16 @@ describe("Articles End Point", () => {
       });
     });
   });
-  // describe("Delete article", () => {
-  //   describe("Delete an article from articles table", () => {
-  //     xtest("Delete:204 status with no data", () => {
-  //       return request(app)
-  //         .delete("/api/articles/1")
-  //         .expect(204)
-  //         .then((data) => {
-  //           console.log(data);
-  //         });
-  //     });
-  //   });
-  // });
+  describe("Delete article", () => {
+    describe("Delete an article from articles table", () => {
+      test("Delete:204 status with no data", () => {
+        return request(app)
+          .delete("/api/articles/1")
+          .expect(204)
+          .then((data) => {
+            expect(data.body).toEqual({});
+          });
+      });
+    });
+  });
 });
