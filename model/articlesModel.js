@@ -87,3 +87,14 @@ exports.removeArticle = (id) => {
       return rows;
     });
 };
+
+exports.patchArtice = (id, body) => {
+  return db
+    .query("update articles set body=$1 where article_id=$2 returning *", [
+      body,
+      id,
+    ])
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};

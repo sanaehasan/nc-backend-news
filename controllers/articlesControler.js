@@ -4,6 +4,7 @@ const {
   patchArticelVotes,
   postArticle,
   removeArticle,
+  patchArtice,
 } = require("../model/articlesModel");
 
 exports.getArticleByID = (request, response, next) => {
@@ -55,6 +56,17 @@ exports.deleteArticle = (request, response, next) => {
   removeArticle(article_id)
     .then((data) => {
       response.status(204).send({ msg: "elements deleted" });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+exports.updateArticle = (request, response, next) => {
+  const { article_id } = request.params;
+  const { body } = request.body;
+  patchArtice(article_id, body)
+    .then((data) => {
+      return response.status(201).send({ article: data });
     })
     .catch((err) => {
       next(err);
